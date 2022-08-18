@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <!-- Hamburguer Menu -->
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <!-- Back Button -->
+    <ion-buttons slot="end">
+      <ion-back-button text="voltar" icon="chevron-back"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Cadastrar Livro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [formGroup]="form" >
+
+  <div class="loading-spinner" *ngIf="loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Informações do Livro</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Referência</ion-label>
+          <ion-input type="text" required="required" formControlName="referencia"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Nome</ion-label>
+          <ion-input type="text" formControlName="nome"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Sinopse</ion-label>
+          <ion-input type="text" formControlName="sinopse"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Gênero</ion-label>
+          <ion-select formControlName="genero">
+            <ion-select-option value="FICCAO_LITERARIA">Ficção Literária</ion-select-option>
+            <ion-select-option value="NAO_FICCAO">Não Ficção</ion-select-option>
+            <ion-select-option value="SUSPENSE">Suspense</ion-select-option>
+            <ion-select-option value="FICCAO_CIENTIFICA">Ficção Científica</ion-select-option>
+            <ion-select-option value="FANTASIA">Fantasia</ion-select-option>
+            <ion-select-option value="HORROR">Horror</ion-select-option>
+            <ion-select-option value="POESIA">Poesia</ion-select-option>
+            <ion-select-option value="ROMANCE">Romance</ion-select-option>
+            <ion-select-option value="RELIGIOSO">Religioso</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Autor</ion-label>
+          <ion-select formControlName="autor" multiple="true" cancelText="Cancelar" [compareWith]="compareWithAuthors">
+            <ion-select-option *ngFor="let author of authors" [value]="author">
+              {{ author.nome }} {{ author.sobrenome }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Editora</ion-label>
+          <ion-select formControlName="editora" cancelText="Cancelar" [compareWith]="compareWithPublishers">
+            <ion-select-option *ngFor="let publisher of publishers" [value]="publisher">
+              {{ publisher.nome }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Publicação</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" cancelText="Cancelar" doneText="Confirmar" formControlName="publicacao"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Preço</ion-label>
+          <ion-input type="number" formControlName="preco"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Imagem (URL)</ion-label>
+          <ion-input type="url" formControlName="imagem"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end">
+  <ion-fab-button (click)="saveBook()" color="primary" [disabled]="!form.valid">
+    <ion-icon name="checkmark"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

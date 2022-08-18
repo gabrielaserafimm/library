@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <!-- Hamburguer Menu -->
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Livros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="loading-spinner" *ngIf="loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading">
+    <ion-card *ngFor="let book of books">
+      <ion-card-header>
+
+        <ion-card-title>
+          <ion-item>
+            <strong>{{ book.nome }}</strong>
+            <ion-icon name="ellipsis-vertical-outline" slot="end" (click)="showOptions(book)"></ion-icon>
+          </ion-item>
+        </ion-card-title>
+
+        <ion-card-subtitle><small>Ref. {{ book.referencia }}</small></ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list lines="none">
+
+          <ion-item>
+            <ion-avatar slot="start">
+              <img [src]="book.imagem" />
+            </ion-avatar>
+            <ion-label>
+
+              <div *ngIf="book.autor?.length">
+
+                <div *ngIf="book.autor?.length > 1" class="many-authors">
+                  <h3>Autores</h3>
+                  <h3 *ngFor="let author of book.autor">» {{ author.nome }} {{ author.sobrenome }}</h3>
+                </div>
+
+                <div *ngIf="book.autor?.length <= 1">
+                  <h3 *ngFor="let author of book.autor">Autor: {{ author.nome }} {{ author.sobrenome }}</h3>
+                </div>
+
+              </div>
+
+              <h3>Gênero: <strong>{{ book.genero | genero }}</strong></h3>
+
+              <h3>
+                Preço:
+                <ion-text color="success">
+                  <strong *ngIf="book.preco === 0"> GRÁTIS </strong>
+                  <strong *ngIf="book.preco !== 0"> {{ book.preco | currency }} </strong>
+                </ion-text>
+              </h3>
+
+              <h3>
+                Lançamento:
+                <ion-text color="medium">
+                  {{ book.publicacao | date: 'dd/MM/yyyy' }}
+                </ion-text>
+              </h3>
+
+              <div>
+                <small>
+                  Editora:
+                  <ion-text color="medium">{{ book.editora.nome }}</ion-text>
+                </small>
+              </div>
+            </ion-label>
+          </ion-item>
+
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end">
+  <ion-fab-button color="primary" [routerLink]="['/books-register']">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

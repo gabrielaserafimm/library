@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <!-- Hamburguer Menu -->
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- LIVROS RECENTES -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Livros adicionados recentemente</ion-card-title>
+    </ion-card-header>
+
+    <div class="loading-spinner" *ngIf="loading">
+      <ion-spinner color="primary"></ion-spinner>
+    </div>
+
+    <ion-card-content *ngIf="!loading" >
+      <ion-list>
+
+        <ion-item *ngFor="let book of books">
+          <ion-text>{{ book.nome }}</ion-text>
+          <ion-text slot="end"  color="success" *ngIf="book.preco === 0">GRÁTIS</ion-text>
+          <ion-text slot="end"  color="success" *ngIf="book.preco !== 0">{{ book.preco | currency }}</ion-text>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-card-content>
+
+    <ion-item>
+      <ion-text color="medium" slot="end" [routerLink]="['/books-list']">ver todos</ion-text>
+    </ion-item>
+
+  </ion-card>
+</ion-content>
